@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 01, 2023 at 06:47 PM
+-- Generation Time: Jan 25, 2024 at 11:33 AM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.4
 
@@ -29,9 +29,25 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `cities` (
   `id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `state_id` int(11) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `cities`
+--
+
+INSERT INTO `cities` (`id`, `name`, `state_id`, `created_at`, `updated_at`) VALUES
+(1, 'Miami', 1, '2024-01-25 03:03:39', '2024-01-25 03:03:39'),
+(2, 'Tampa', 1, '2024-01-25 03:03:39', '2024-01-25 03:03:39'),
+(3, 'Rajkot', 2, '2024-01-25 03:03:39', '2024-01-25 03:03:39'),
+(4, 'Surat', 2, '2024-01-25 03:03:39', '2024-01-25 03:03:39'),
+(19, 'Miami', 10, '2024-01-25 04:16:27', '2024-01-25 04:16:27'),
+(20, 'Tampa', 10, '2024-01-25 04:16:27', '2024-01-25 04:16:27'),
+(21, 'Rajkot', 11, '2024-01-25 04:16:27', '2024-01-25 04:16:27'),
+(22, 'Surat', 11, '2024-01-25 04:16:27', '2024-01-25 04:16:27');
 
 -- --------------------------------------------------------
 
@@ -41,9 +57,18 @@ CREATE TABLE `cities` (
 
 CREATE TABLE `countries` (
   `id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `countries`
+--
+
+INSERT INTO `countries` (`id`, `name`, `created_at`, `updated_at`) VALUES
+(1, 'United State', '2024-01-25 03:03:39', '2024-01-25 03:03:39'),
+(2, 'India', '2024-01-25 03:03:39', '2024-01-25 03:03:39');
 
 -- --------------------------------------------------------
 
@@ -98,7 +123,14 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (6, '2023_12_01_140344_create_cities_table', 1),
 (7, '2014_10_12_200000_add_two_factor_columns_to_users_table', 2),
 (8, '2023_12_01_141255_create_sessions_table', 2),
-(9, '2023_12_01_143450_create_groups_table', 3);
+(9, '2023_12_01_143450_create_groups_table', 3),
+(10, '2023_12_06_145737_create_cities_table', 4),
+(11, '2023_12_06_145737_create_groups_table', 5),
+(12, '2023_12_06_145738_create_countries_table', 5),
+(13, '2023_12_06_152926_create_cities_table', 6),
+(14, '2023_12_06_153625_create_profiles_table', 7),
+(15, '2024_01_25_080944_create_countries_states_cities_tables', 8),
+(16, '2024_01_25_091052_create_populations_table', 9);
 
 -- --------------------------------------------------------
 
@@ -134,6 +166,46 @@ CREATE TABLE `personal_access_tokens` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `populations`
+--
+
+CREATE TABLE `populations` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `population` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `city_id` int(11) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `populations`
+--
+
+INSERT INTO `populations` (`id`, `population`, `city_id`, `created_at`, `updated_at`) VALUES
+(1, '1500000', 11, '2024-01-25 04:05:29', '2024-01-25 04:05:29'),
+(2, '1200000', 12, '2024-01-25 04:05:29', '2024-01-25 04:05:29'),
+(3, '800000', 13, '2024-01-25 04:05:29', '2024-01-25 04:05:29'),
+(4, '1200000', 14, '2024-01-25 04:05:29', '2024-01-25 04:05:29'),
+(9, '1500000', 19, '2024-01-25 04:16:27', '2024-01-25 04:16:27'),
+(10, '1200000', 20, '2024-01-25 04:16:27', '2024-01-25 04:16:27'),
+(11, '800000', 21, '2024-01-25 04:16:27', '2024-01-25 04:16:27'),
+(12, '1200000', 22, '2024-01-25 04:16:27', '2024-01-25 04:16:27');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `profiles`
+--
+
+CREATE TABLE `profiles` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `sessions`
 --
 
@@ -145,6 +217,38 @@ CREATE TABLE `sessions` (
   `payload` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
   `last_activity` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `sessions`
+--
+
+INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
+('dwiXVqp2fnMrI5qSuVSTQZ4z3lnLNJMHgGHsZWOA', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoicWdzNlZBZFhoTW9GWTl5b2hKVFlkVmJiTDVqbUJ1eE9DODd1ZUd5NCI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzA6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9kcm9wZG93biI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1706178113),
+('zgAW4FgTIRO8y5dKInoFgiHhj1rj2Eag7T3xkp4j', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoibGhEOWx1cFRWM2dqZmhGNlFydHNWb05SSFRFZEVpQjFocVBwTDE4cSI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzA6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9kcm9wZG93biI7fX0=', 1706178333);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `states`
+--
+
+CREATE TABLE `states` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `country_id` int(11) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `states`
+--
+
+INSERT INTO `states` (`id`, `name`, `country_id`, `created_at`, `updated_at`) VALUES
+(1, 'Florida', 1, '2024-01-25 03:03:39', '2024-01-25 03:03:39'),
+(2, 'Gujarat', 2, '2024-01-25 03:03:39', '2024-01-25 03:03:39'),
+(10, 'Florida', 10, '2024-01-25 04:16:27', '2024-01-25 04:16:27'),
+(11, 'Gujarat', 11, '2024-01-25 04:16:27', '2024-01-25 04:16:27');
 
 -- --------------------------------------------------------
 
@@ -216,12 +320,30 @@ ALTER TABLE `personal_access_tokens`
   ADD KEY `personal_access_tokens_tokenable_type_tokenable_id_index` (`tokenable_type`,`tokenable_id`);
 
 --
+-- Indexes for table `populations`
+--
+ALTER TABLE `populations`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `profiles`
+--
+ALTER TABLE `profiles`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `sessions`
 --
 ALTER TABLE `sessions`
   ADD PRIMARY KEY (`id`),
   ADD KEY `sessions_user_id_index` (`user_id`),
   ADD KEY `sessions_last_activity_index` (`last_activity`);
+
+--
+-- Indexes for table `states`
+--
+ALTER TABLE `states`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `users`
@@ -238,13 +360,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `cities`
 --
 ALTER TABLE `cities`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `countries`
 --
 ALTER TABLE `countries`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `failed_jobs`
@@ -262,13 +384,31 @@ ALTER TABLE `groups`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`
 --
 ALTER TABLE `personal_access_tokens`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `populations`
+--
+ALTER TABLE `populations`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+
+--
+-- AUTO_INCREMENT for table `profiles`
+--
+ALTER TABLE `profiles`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `states`
+--
+ALTER TABLE `states`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `users`

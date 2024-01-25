@@ -8,8 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Country extends Model
 {
     use HasFactory;
-
-    public function groups() {
-        return $this->belongsToMany(Group::class);
-    }
+    
+    protected $fillable = [
+        'name'
+    ];
 }
